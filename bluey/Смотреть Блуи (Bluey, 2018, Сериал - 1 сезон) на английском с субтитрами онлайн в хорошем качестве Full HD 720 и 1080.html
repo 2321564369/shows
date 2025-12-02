@@ -357,39 +357,39 @@
     <script>
 		
     function loadEpisode(episodeId) {
-        
-        // 1. CONTROL THE PLAYER (Find and Play the Episode)
-        // We safely check if the player object is available before using its API.
-        if (typeof playerjs !== 'undefined' && typeof playerjs.api === 'function') {
-            
-            // This tells the player which video to load (e.g., s1e1)
-            playerjs.api('find', episodeId); 
-            
-            // This tells the player to start playing (audio and video)
-            playerjs.api('play');           
-            
-        } else {
-            console.error("Player.js object not initialized or API not available.");
-            // If the player isn't ready, your main Player.js initialization code 
-            // is likely what needs to be fixed to run on page load.
-        }
-        
-        // 2. CONTROL THE VISIBILITY (Show the Player Window)
-        const playerContainer = document.getElementById('playerjs');
-        
-        if (playerContainer) {
-            // Remove the class that hides the player container
-            playerContainer.classList.remove('hideload');
-            
-            // Aggressive CSS override to ensure visibility (solves the black screen issue)
-            playerContainer.style.display = 'block'; 
-            playerContainer.style.opacity = '1'; 
-            playerContainer.style.visibility = 'visible';
-            
-            // Optional: Scroll to the player if it is far down the page
-            playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+    
+    // 1. Управление плеером (Find and Play the Episode)
+    if (typeof playerjs !== 'undefined' && typeof playerjs.api === 'function') {
+        playerjs.api('find', episodeId); 
+        playerjs.api('play');           
     }
+    
+    // 2. ПРИНУДИТЕЛЬНЫЙ ПОКАЗ КОНТЕЙНЕРА (#playerjs)
+    const playerContainer = document.getElementById('playerjs');
+    
+    if (playerContainer) {
+        // 2a. Удаляем класс-скрыватель
+        playerContainer.classList.remove('hideload');
+        
+        // 2b. ГЛАВНЫЙ ФИКС: Принудительно устанавливаем 'display: block !important'
+        // Это переопределит любое другое правило 'display: none', даже с !important
+        playerContainer.style.setProperty('display', 'block', 'important'); 
+        
+        // 2c. Убеждаемся, что элемент не прозрачен и не скрыт по видимости
+        playerContainer.style.opacity = '1'; 
+        playerContainer.style.visibility = 'visible';
+        
+        // 2d. На всякий случай проверяем и устанавливаем размеры
+        if (playerContainer.offsetHeight === 0 || playerContainer.offsetWidth === 0) {
+             playerContainer.style.width = '100%';
+             // Это заставит плеер занять всю доступную высоту родителя
+             playerContainer.style.height = '600px'; 
+        }
+
+        // 2e. Прокручиваем до плеера
+        playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
     
     // NOTE: You can now remove your old, broken 'playerjsopen()' function, 
     // as its logic is included here.
