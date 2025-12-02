@@ -355,27 +355,7 @@
             <script>
     // This defines the function that your button is trying to call
     <script>
-		function playerjsopen() {
-    // 1. Код, который делает плеер видимым (как мы делали в прошлый раз):
-    const playerContainer = document.getElementById('playerjs');
-    if (playerContainer) {
-        playerContainer.classList.remove('hideload');
-        playerContainer.style.display = 'block';
-        playerContainer.style.opacity = '1';
-        playerContainer.style.visibility = 'visible';
-    }
-
-    // 2. Код, который ИНИЦИАЛИЗИРУЕТ плеер (если это необходимо)
-    // Вероятно, в вашем оригинальном коде была вот такая команда, 
-    // которая создавала объект плеера и запускала воспроизведение.
-    // Убедитесь, что это код выполняется ОДИН раз при клике.
-
-    if (typeof Playerjs === 'function') {
-        new Playerjs({id:'playerjs', file:'ВАША_ССЫЛКА_НА_ЭПИЗОД_1'});
-        // Замените 'ВАША_ССЫЛКА_НА_ЭПИЗОД_1' на реальную ссылку 
-        // из вашей конфигурации Episode 1
-    }
-}
+		
     function loadEpisode(episodeId) {
         
         // 1. CONTROL THE PLAYER (Find and Play the Episode)
