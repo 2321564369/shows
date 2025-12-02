@@ -355,24 +355,23 @@
             <script>
     // This defines the function that your button is trying to call
     function playerjsopen() {
-        // 1. Get the main player container (which is hidden)
-        const playerContainer = document.getElementById('playerjs');
+    const playerContainer = document.getElementById('playerjs');
+    
+    if (playerContainer) {
+        // 1. Remove the 'hideload' class (as you did before)
+        playerContainer.classList.remove('hideload');
         
-        // 2. Check if the element exists and then remove the class 
-        //    that is hiding it (likely 'hideload').
-        if (playerContainer) {
-            playerContainer.classList.remove('hideload');
-            
-            // OPTIONAL: If the player is inside a separate modal or wrapper, 
-            // you may need to make that wrapper visible too. 
-            // For example:
-            // document.getElementById('video-modal-wrapper').style.display = 'block';
-        }
-
-        // If you are using a library to open a modal, the code here 
-        // should be the call to that library's 'open' method.
+        // 2. FORCE the CSS 'display' property to ensure visibility
+        //    This overrides any 'display: none' that might be in a different class
+        playerContainer.style.display = 'block';
+        
+        // 3. FORCE the CSS 'opacity' property to ensure it's not transparent
+        playerContainer.style.opacity = '1'; 
+        
+        // 4. Force visibility (just in case)
+        playerContainer.style.visibility = 'visible'; 
     }
-</script>
+}
 
             <!-- Скрипты -->
             <script>
