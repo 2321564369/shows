@@ -354,24 +354,45 @@
             <div id="player2js" class="player2js"></div>
             <script>
     // This defines the function that your button is trying to call
-    function playerjsopen() {
-    const playerContainer = document.getElementById('playerjs');
-    
-    if (playerContainer) {
-        // 1. Remove the 'hideload' class (as you did before)
-        playerContainer.classList.remove('hideload');
+    <script>
+    function loadEpisode(episodeId) {
         
-        // 2. FORCE the CSS 'display' property to ensure visibility
-        //    This overrides any 'display: none' that might be in a different class
-        playerContainer.style.display = 'block';
+        // 1. CONTROL THE PLAYER (Find and Play the Episode)
+        // We safely check if the player object is available before using its API.
+        if (typeof playerjs !== 'undefined' && typeof playerjs.api === 'function') {
+            
+            // This tells the player which video to load (e.g., s1e1)
+            playerjs.api('find', episodeId); 
+            
+            // This tells the player to start playing (audio and video)
+            playerjs.api('play');           
+            
+        } else {
+            console.error("Player.js object not initialized or API not available.");
+            // If the player isn't ready, your main Player.js initialization code 
+            // is likely what needs to be fixed to run on page load.
+        }
         
-        // 3. FORCE the CSS 'opacity' property to ensure it's not transparent
-        playerContainer.style.opacity = '1'; 
+        // 2. CONTROL THE VISIBILITY (Show the Player Window)
+        const playerContainer = document.getElementById('playerjs');
         
-        // 4. Force visibility (just in case)
-        playerContainer.style.visibility = 'visible'; 
+        if (playerContainer) {
+            // Remove the class that hides the player container
+            playerContainer.classList.remove('hideload');
+            
+            // Aggressive CSS override to ensure visibility (solves the black screen issue)
+            playerContainer.style.display = 'block'; 
+            playerContainer.style.opacity = '1'; 
+            playerContainer.style.visibility = 'visible';
+            
+            // Optional: Scroll to the player if it is far down the page
+            playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
-}
+    
+    // NOTE: You can now remove your old, broken 'playerjsopen()' function, 
+    // as its logic is included here.
+</script>
 
             <!-- Скрипты -->
             <script>
@@ -421,7 +442,7 @@
                         
                         
                         <div class="head-season body-1">
-                            1 seson(all i could get)
+                            1 seson(all i could get fr now)
                         </div>
                         
                         
@@ -541,7 +562,7 @@
                                         </a>
                                     </article>
                                     <span class="title label-1">1 Episode</span>
-                                </div><div class="swiper-slide swiper-slide-visible swiper-slide-next" onclick="playerjs.api('find','s1e2');playerjs.api('play');playerjsopen();" style="width: 230.286px; margin-right: 19px;" role="group" aria-label="2 / 52">
+                                </div><div class="swiper-slide swiper-slide-visible swiper-slide-next" onclick="loadEpisode('s1e1');" style="width: 230.286px; margin-right: 19px;" role="group" aria-label="2 / 52">
                                 
                                     <article class="series-item">
                                         <div class="info play-series">
