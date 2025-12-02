@@ -358,28 +358,30 @@
 		
    function loadEpisode(episodeId) {
     
-    // 1. Вызов API для запуска видео
+    // 1. Управление плеером
     if (typeof playerjs !== 'undefined' && typeof playerjs.api === 'function') {
         playerjs.api('find', episodeId); 
         playerjs.api('play');           
     }
     
-    // 2. Управление видимостью контейнера
     const playerContainer = document.getElementById('playerjs');
     
     if (playerContainer) {
         
-        // Главное: УДАЛЯЕМ класс, который скрывает контейнер (#playerjs)
+        // 🚨 ГЛАВНЫЙ ФИКС: Удаляем класс, который скрывает контейнер. 
+        // Это самый чистый способ борьбы с display: none.
         playerContainer.classList.remove('hideload'); 
         
-        // Принудительная установка display, чтобы перебить потенциальный display:none
+        // Гарантируем, что элемент будет отображен и иметь размер, 
+        // на случай, если hideload не только display: none.
         playerContainer.style.setProperty('display', 'block', 'important'); 
-        
-        // Гарантируем, что контейнер имеет высоту
         playerContainer.style.setProperty('height', '500px', 'important'); 
         playerContainer.style.setProperty('width', '100%', 'important'); 
         
-        // Прокручиваем до плеера
+        // Устанавливаем высокий z-index, чтобы плеер был поверх всех других элементов
+        playerContainer.style.setProperty('z-index', '99999', 'important'); 
+
+        // 3. Прокручиваем до плеера
         playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
