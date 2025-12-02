@@ -358,55 +358,28 @@
 		
    function loadEpisode(episodeId) {
     
-    // 1. Вызов API (это работает, мы слышим звук)
+    // 1. Вызов API для запуска видео
     if (typeof playerjs !== 'undefined' && typeof playerjs.api === 'function') {
         playerjs.api('find', episodeId); 
         playerjs.api('play');           
     }
     
+    // 2. Управление видимостью контейнера
     const playerContainer = document.getElementById('playerjs');
-    const innerContainer = document.getElementById('oframeplayerjs');
     
     if (playerContainer) {
         
-        // 2. ФИКС: Внешний контейнер (#playerjs)
-        playerContainer.classList.remove('hideload');
-        playerContainer.style.setProperty('display', 'block', 'important');
-        playerContainer.style.setProperty('opacity', '1', 'important');
-        playerContainer.style.setProperty('visibility', 'visible', 'important');
-        playerContainer.style.setProperty('width', '100%', 'important');
-        playerContainer.style.setProperty('height', '500px', 'important'); // Проверьте, что 500px достаточно
-        playerContainer.style.setProperty('z-index', '99999', 'important'); // Высокий Z-index
+        // Главное: УДАЛЯЕМ класс, который скрывает контейнер (#playerjs)
+        playerContainer.classList.remove('hideload'); 
         
-        // 3. ФИКС: Внутренний контейнер (#oframeplayerjs)
-        if (innerContainer) {
-            innerContainer.style.setProperty('display', 'block', 'important');
-            innerContainer.style.setProperty('opacity', '1', 'important');
-            innerContainer.style.setProperty('visibility', 'visible', 'important');
-            innerContainer.style.setProperty('z-index', '99999', 'important');
-        }
-
-        // 4. ФИКС: Тег <video> и его непосредственный родитель (pjsdiv)
-        const videoElement = playerContainer.querySelector('video');
-        if (videoElement) {
-            
-            // Родительский div тега <video>
-            const videoParent = videoElement.parentElement;
-            if (videoParent) {
-                videoParent.style.setProperty('display', 'block', 'important');
-                videoParent.style.setProperty('opacity', '1', 'important');
-                videoParent.style.setProperty('visibility', 'visible', 'important');
-                videoParent.style.setProperty('z-index', '999999', 'important');
-            }
-            
-            // Сам тег <video>
-            videoElement.style.setProperty('display', 'block', 'important');
-            videoElement.style.setProperty('opacity', '1', 'important');
-            
-            // Также на всякий случай проверяем, что у него нет фильтров
-            videoElement.style.setProperty('filter', 'none', 'important'); 
-        }
+        // Принудительная установка display, чтобы перебить потенциальный display:none
+        playerContainer.style.setProperty('display', 'block', 'important'); 
         
+        // Гарантируем, что контейнер имеет высоту
+        playerContainer.style.setProperty('height', '500px', 'important'); 
+        playerContainer.style.setProperty('width', '100%', 'important'); 
+        
+        // Прокручиваем до плеера
         playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
