@@ -486,19 +486,19 @@
                     
                 </div>
 			<script>
-document.querySelectorAll('.tabs-nav .s-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
+				document.querySelectorAll('.tabs-nav .s-tab').forEach(tab => {
+    				tab.addEventListener('click', () => {
 
         // remove active class from all tabs
-        document.querySelectorAll('.tabs-nav .s-tab').forEach(t => {
-            t.classList.remove('s-tabs-active', 'ui-tabs-active');
-        });
+        		document.querySelectorAll('.tabs-nav .s-tab').forEach(t => {
+           			 t.classList.remove('s-tabs-active', 'ui-tabs-active');
+       			 });
 
         // add active class to clicked tab
-        tab.classList.add('s-tabs-active', 'ui-tabs-active');
-    });
-});
-</script>
+        			tab.classList.add('s-tabs-active', 'ui-tabs-active');
+    			});
+				});
+			</script>
             </div>
             <div id="series-tabs" class="seasons-block ui-tabs ui-corner-all ui-widget ui-widget-content">
                 <div class="seasons-block-head">
@@ -506,7 +506,7 @@ document.querySelectorAll('.tabs-nav .s-tab').forEach(tab => {
                     <div class="tabs-nav-container">
                         <ul class="tabs-nav ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header" style="position: relative" role="tablist">
                             
-                            <li class="s-tab s-tabs-active ui-tabs-active" data-tab="tab1"><h3 class="label-3">1</h3></li> 
+                            <li class="s-tab " data-tab="tab1"><h3 class="label-3">1</h3></li> 
                             <li class="s-tab " data-tab="tab2"><h3 class="label-3">2</h3></li>
                             <div class="dropdown-block">
                                 
