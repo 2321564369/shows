@@ -358,7 +358,7 @@
 		
    function loadEpisode(episodeId) {
     
-    // 1. Управление плеером (обязательно должно быть первым)
+    // 1. Запуск видео через API (чтобы появился контент)
     if (typeof playerjs !== 'undefined' && typeof playerjs.api === 'function') {
         playerjs.api('find', episodeId); 
         playerjs.api('play');           
@@ -368,36 +368,23 @@
     
     if (playerContainer) {
         
-        // 🚨 ГЛАВНЫЙ ФИКС 1: Удаляем класс, который скрывает контейнер. 
-        // Это самый чистый способ борьбы с display: none.
+        // 🚨 ФИКС 1: Удаляем скрывающий класс 'hideload'.
+        // Это необходимо, чтобы плеер вообще мог стать видимым.
         playerContainer.classList.remove('hideload'); 
         
-        // ГЛАВНЫЙ ФИКС 2: Принудительная установка видимости и размеров.
-        playerContainer.style.setProperty('display', 'block', 'important'); 
-        playerContainer.style.setProperty('height', '500px', 'important'); // Задаем высоту 500px
-        playerContainer.style.setProperty('width', '100%', 'important'); 
-        playerContainer.style.setProperty('opacity', '1', 'important'); 
-        playerContainer.style.setProperty('visibility', 'visible', 'important'); 
+        // 🚨 ФИКС 2: Выводим плеер на передний план. 
+        // 99999 — это очень высокий z-index, гарантирующий, что плеер 
+        // будет поверх всех других элементов (рекламы, оверлеев и т.д.).
         playerContainer.style.setProperty('z-index', '99999', 'important'); 
-
-        // 🚨 ФИКС ОВЕРЛЕЯ: Принудительно скрываем любой элемент-постер 
-        // внутри или рядом с плеером, который мог остаться видимым.
         
-        // Player.js может использовать div с фоновым изображением в качестве постера. 
-        // Ищем и скрываем его внутри контейнера.
-        const internalPoster = playerContainer.querySelector('[style*="background-image"]');
-        if (internalPoster) {
-            internalPoster.style.setProperty('display', 'none', 'important');
-        }
+        // ФИКС 3: Гарантируем, что элемент отображается и имеет размер, 
+        // так как он может быть скрыт через 'display: none' или 'height: 0'.
+        playerContainer.style.setProperty('display', 'block', 'important'); 
+        playerContainer.style.setProperty('height', '500px', 'important'); 
+        playerContainer.style.setProperty('width', '100%', 'important'); 
         
-        // 3. Прокручиваем до плеера
+        // 4. Прокручиваем до плеера
         playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    
-    // Также на всякий случай скроем прелоадер, если он остался видимым
-    const preloader = document.querySelector('.ser_preloader');
-    if (preloader) {
-        preloader.style.setProperty('display', 'none', 'important');
     }
 }
 			</script>
