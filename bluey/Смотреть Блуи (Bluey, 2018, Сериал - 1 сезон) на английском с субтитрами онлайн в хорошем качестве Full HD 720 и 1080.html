@@ -2030,7 +2030,18 @@ window.yaContextCb.push(()=>{
 </script></div>
             </div>
             
-
+<script>
+    // Wait until the entire document is ready
+    $(document).ready(function() {
+        // This is the essential "query code" that makes the tabs work.
+        // It selects the element with the ID "tabs" and applies the
+        // jQuery UI Tabs functionality to it.
+        $( "#tabs" ).tabs({
+            // Optional: You can set the initial active tab here (0 is the first tab)
+            // active: 0 
+        });
+    });
+</script>
 
 
 
